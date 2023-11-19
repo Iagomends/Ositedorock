@@ -11,6 +11,7 @@ Criar Usuário
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Criar</button>
+    <input type="hidden" name="next" value="{% url 'index' %}">
 </form>
 
 {% endblock content %}

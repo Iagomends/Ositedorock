@@ -13,7 +13,7 @@ def signup(request):
             user.groups.add(user_group)
             user.save()
 
-            return HttpResponseRedirect('index')
+            #return HttpResponseRedirect("{% url 'index' %}")
     else:
         form = UserCreationForm()
 
