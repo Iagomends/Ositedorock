@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Oswald:wght@500&display=swap');
+
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: auto;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(0, 0, 0);
+    background-color: rgb(180, 179, 179);
+  }
+  
+
+  main {
+    width: 80%;
+    margin: 0 auto;
+    flex: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(16, 4, 66);
+  }
+  
+  footer {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(180, 179, 179);
+    color: rgb(0, 0, 0);
+  }
+  
+  body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(69, 69, 68, 0);
+  }
+
+  .bandas-container {
+    border: 2px solid black;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.child-1 {
+    width: 150px;
+    height: 150px;
+    
+}
+
+.child-2 {
+    width: 45%;
+    height: 45vh;
+    
+}
+
+
+@media only screen and (max-width: 480px) {
+  .bandas-container {
+      flex-direction: column;
+      height: 400px;
+      
+
+  }
+  header{
+    flex-direction: column;
+    width: 50%;
+    height: 50vh;
+    margin: 0%;
+  }
+}
+
+.nav_links{
+  list-style: none;
+}
+
+.nav_links li{
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.nav_links li a{
+  transition: all 0.3s ease 0s;
+  font-family: "oswald", medium;
+  font-weight: 500;
+  font-size: 24px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.nav_links li a:hover{
+  color: #ffffff;
+}

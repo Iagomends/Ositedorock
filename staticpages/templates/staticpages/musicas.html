@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Músicas
+{% endblock title %}
+
+{% block content %}
+
+
+<p>Aqui você encontrará algumas das melhores bandas de rock de todos os tempos!</p>
+
+<p>O rock 'n' roll é um gênero musical que teve origem nos Estados Unidos (EUA) a partir dos anos 1950, popularizando-se por todo o mundo. Mais do que um estilo musical com ritmo contagiante, é conhecido por ter um apelo comportamental e visual cheio de irreverência e atitude. Espero que goste da minha seleção :)</p>
+    
+    
+    <h3>Bandas:</h3>
+    
+    <div class="bandas-container">
+        <div class ="child-1">
+            <img src="{% static 'the-beatles.jpg' %}" style="max-width: 150px;" alt="The Beatles">
+        </div>
+        <div class ="child-2">
+            <h4>The Beatles</h4>
+            <p>Let It Be</p>
+            <p>Yesterday</p>
+            <p>Something</p>
+            <p>Hey Jude</p>
+        </div>
+    </div>
+    <div class="bandas-container">
+        <div class ="child-1">
+            <img src="{% static 'queen.jpg' %}" style="max-width: 150px;" alt="Queen">
+        </div>
+        <div class ="child-2">
+            <h4>Queen</h4>
+            <p>A Kind Of Magic</p>
+            <p>Crazy Little Thing Called Love</p>
+            <p>Love of My Life</p>
+            <p>Radio GaGa</p>
+    
+        </div>
+    </div>
+    <div class="bandas-container">
+        <div class ="child-1">
+            <img src="{% static 'guns-n-roses.jpg' %}" style="max-width: 150px;" alt="Guns N' Roses">
+        </div>
+        <div class ="child-2">
+            <h4>Guns N' Roses</h4>
+            <p>It's So Easy</p>
+            <p>Patience</p>
+            <p>You Could Be Mine</p>
+            <p>Civil War</p>
+    
+        </div>
+        
+    </div>
+    
+    {% endblock content %}

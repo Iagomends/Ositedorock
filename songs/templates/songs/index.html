@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+Músicas
+{% endblock title %}
+{% block content %}
+
+<section>
+    
+    <p>Não encontrou a música? <a href="{% url 'songs:create' %}">Adicionar Nova música</a></p>
+</section>
+<h2>Todas as músicas</h2>
+{% if post_list %}
+<section >
+    {% for post in post_list|dictsortreversed:"id" %}
+    <article >
+        <a href="{% url 'songs:detail' post.id %}" > <p> {{ post.name}} - {{ post.band }}</p></a>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhuma música.</p>
+{% endif %}
+
+{% endblock content %}

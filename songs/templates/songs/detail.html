@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ post.name }} {{ post.band }}
+{% endblock title %}
+
+{% block content %}
+<h2>Detalhes da música {{ post.name }} - {{ post.band }}</h2>
+
+<section >
+    
+    <ul>
+        <li>Nome: {{ post.name }}</li>
+        <li>Banda: {{ post.band }} </li>
+        <li>Letra: 
+        <p>{{ post.lyrics }} </p></li>
+        <li>Data de publicação: {{ post.date }}</li>
+        <li><a href="{% url 'songs:update' post.id %}">Editar</a></li>
+        <li><a href="{% url 'songs:delete' post.id %}">Apagar</a></li>
+
+        <h4>Conheça outras músicas dessas bandas:</h4>
+
+        <p>
+            {% for category in post.category_set.all %}
+            <a href="{% url 'songs:category' category.id %}">{{ category.name }}</a>
+            {% endfor %}
+        </p>
+
+    </ul>
+</section>
+
+<hr>
+
+<section>
+    <header>
+        <h3>Comentários</h3>
+    </header>
+    <ul>
+        {% if post.comment_set.all %}
+            {% for comment in post.comment_set.all|dictsortreversed:"id" %}
+             
+                <figure>
+                    <blockquote>
+                        "{{ comment.text }}"
+                    </blockquote>
+                    <figcaption>—{{ comment.author }}, {{comment.date}}
+                </figure>
+                
+            {% endfor %}
+        {% else %}
+            <p>Ainda não existe nenhum comentário para essa música.</p>
+        {% endif %}
+    </ul>
+
+
+    
+<hr>
+
+<a href="{% url 'songs:comment' post.pk %}"><button>Crie seu comentário</button></a>
+</section>
+
+
+
+
+
+{% endblock content %}

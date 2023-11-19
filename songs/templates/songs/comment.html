@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+criar comentários
+{% endblock title %}
+{% block content %}
+<h2>Comentar música{{ post.name }} ({{ post.band }})</h2>
+
+<form action="{% url 'songs:comment' post.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Postar Comentário</button>
+</form>
+
+<p><a href="{% url 'songs:detail' post.id %}">Voltar para a página da música</a></p>
+{% endblock content %}
