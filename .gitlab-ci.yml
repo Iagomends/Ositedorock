@@ -1,12 +1,13 @@
 # The Docker image that will be used to build your app
-image: registry.gitlab.com/pages/hugo:latest
+image: registry.gitlab.com/pages/django:latest
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 pages:
   script:
-    - django
+    - python manage.py migrate
+    - python manage.py test
   artifacts:
     paths:
       - public
