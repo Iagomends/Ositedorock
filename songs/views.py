@@ -21,69 +21,59 @@ def post_list(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = Comment.objects.filter(post=post)
-    
     if request.method == 'POST':
-        # Adicione a lógica para criar um comentário manualmente
-        author = request.POST.get('author')
-        text = request.POST.get('text')
-        comment = Comment(author=author, text=text, post=post)
-        comment.save()
-        
-        return HttpResponseRedirect('songs:detail', pk=post.pk)
-
-    return render(request, 'songs/detail.html', {'post': post, 'comments': comments})
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return HttpResponseRedirect('songs:detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'songs/detail.html', {'post': post, 'comments': comments, 'form': form})
 
 def post_create(request):
     if request.method == 'POST':
-        # Adicione a lógica para criar um post manualmente
-        name = request.POST.get('name')
-        lyrics = request.POST.get('lyrics')
-        band = request.POST.get('band')
-        post = Post(name=name, lyrics=lyrics, band=band)
-        post.save()
-
-        return HttpResponseRedirect('songs:index')
-
-    return render(request, 'songs/create.html')
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('songs:index')
+    else:
+        form = PostForm()
+    return render(request, 'songs/create.html', {'form': form})
 
 def post_update(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    
     if request.method == 'POST':
-        # Adicione a lógica para atualizar um post manualmente
-        post.name = request.POST.get('name')
-        post.lyrics = request.POST.get('lyrics')
-        post.band = request.POST.get('band')
-        post.save()
-
-        return HttpResponseRedirect('songs:index')
-
-    return render(request, 'songs/update.html', {'post': post})
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('songs:index')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'songs/update.html', {'form': form})
 
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    
     if request.method == 'POST':
-        # Adicione a lógica para excluir um post manualmente
         post.delete()
-
         return HttpResponseRedirect('songs:index')
-
     return render(request, 'songs/delete.html', {'post': post})
 
 def create_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-
     if request.method == 'POST':
-        # Adicione a lógica para criar um comentário manualmente
-        author = request.POST.get('author')
-        text = request.POST.get('text')
-        comment = Comment(author=author, text=text, post=post)
-        comment.save()
-
-        return HttpResponseRedirect(reverse('songs:detail', args=(post_id,)))
-
-    return render(request, 'songs/comment.html', {'post': post})
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return HttpResponseRedirect(
+                reverse('songs:detail', args=(post_id, )))
+    else:
+        form = CommentForm()
+    context = {'form': form, 'post': post}
+    return render(request, 'songs/comment.html', context)
 
 def category_list(request):
     categories = Category.objects.all()
