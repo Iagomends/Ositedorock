@@ -1,9 +1,13 @@
 # The Docker image that will be used to build your app
-image: registry.gitlab.com/pages/django:latest
+image: $CI_REGISTRY_IMAGE:latest
 
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+  CI_REGISTRY: registry.gitlab.com
+  CI_REGISTRY_IMAGE: $CI_REGISTRY/pages/django
 
+before_script:
+  - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+  
 pages:
   script:
     - python manage.py migrate
