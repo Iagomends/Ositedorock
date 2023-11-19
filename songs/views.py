@@ -14,59 +14,41 @@ from .forms import PostForm, CommentForm
 from django.views import generic
 
 
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'songs/index.html', {'posts': posts})
+class SongListView(generic.ListView):
+    model = Post
+    template_name = 'songs/index.html' 
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    comments = Comment.objects.filter(post=post)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            return HttpResponseRedirect('songs:detail', pk=post.pk)
-    else:
-        form = CommentForm()
-    return render(request, 'songs/detail.html', {'post': post, 'comments': comments, 'form': form})
+class SongDetailView(generic.DetailView):
+    model = Post
+    template_name = 'songs/detail.html'
 
-def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('songs:index')
-    else:
-        form = PostForm()
-    return render(request, 'songs/create.html', {'form': form})
+class SongCreateView(generic.CreateView):
+    model = Post
+    fields = ['name', 'lyrics', 'band',]
+    template_name = 'songs/create.html'
+    success_url = '../'
 
-def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('songs:index')
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'songs/update.html', {'form': form})
+class SongUpdateView(generic.UpdateView):
+    model = Post
+    fields = ['name', 'lyrics', 'band',]
+    template_name = 'songs/update.html'
+    success_url = '../../'
 
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
-        post.delete()
-        return HttpResponseRedirect('songs:index')
-    return render(request, 'songs/delete.html', {'post': post})
+class SongDeleteView(generic.DeleteView):
+    model = Post
+    template_name = 'songs/delete.html'
+    success_url = '../../'
 
 def create_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
+            comment_author = form.cleaned_data['author']
+            comment_text = form.cleaned_data['text']
+            comment = Comment(author=comment_author,
+                            text=comment_text,
+                            posts=post)
             comment.save()
             return HttpResponseRedirect(
                 reverse('songs:detail', args=(post_id, )))
@@ -75,10 +57,11 @@ def create_comment(request, post_id):
     context = {'form': form, 'post': post}
     return render(request, 'songs/comment.html', context)
 
-def category_list(request):
-    categories = Category.objects.all()
-    return render(request, 'songs/categories.html', {'categories': categories})
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = 'songs/categories.html'
 
-def category_detail(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    return render(request, 'songs/category.html', {'category': category})
+
+class CategoryDetailView(generic.DetailView):
+    model = Category
+    template_name = 'songs/category.html'

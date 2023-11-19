@@ -4,12 +4,12 @@ from . import views
 
 app_name = 'songs'
 urlpatterns = [
-    path('', views.post_list, name='index'),
-    path('create/', views.post_create, name='create'),
-    path('<int:pk>/', views.post_detail, name='detail'),
-    path('update/<int:pk>/', views.post_update, name='update'),
-    path('delete/<int:pk>/', views.post_delete, name='delete'),
+    path('', views.SongListView.as_view(), name='index'),
+    path('create/', views.SongCreateView.as_view(), name='create'),
+    path('<int:pk>/', views.SongDetailView.as_view(), name='detail'),
+    path('update/<int:pk>/', views.SongUpdateView.as_view(), name='update'),
+    path('delete/<int:pk>/', views.SongDeleteView.as_view(), name='delete'),
     path('<int:post_id>/comment/', views.create_comment, name='comment'),
-    path('category/<int:pk>', views.category_detail, name='category'),
-    path('categories/', views.category_list, name='categories'),
+    path('category/<int:pk>', views.CategoryDetailView.as_view(), name='category'),
+    path('categories/', views.CategoryListView.as_view(), name='categories'),
 ]
